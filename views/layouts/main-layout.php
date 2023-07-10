@@ -27,8 +27,8 @@ session_start();
                         <input type="email" name="email" class="form-control" id="specificSizeInputEmail" placeholder="Email">
                     </div>
                     <div class="col-sm-3">
-                        <label class="visually-hidden" for="specificSizeInputEmail">Descriptions</label>
-                        <input type="text-area" name="descriptions" class="form-control" id="specificSizeInputEmail" placeholder="Descriptions">
+                        <label class="visually-hidden" for="specificSizeInputDescriptions">Descriptions</label>
+                        <textarea name="descriptions" id="specificSizeInputEmail" cols="30" rows="10" class="form-control" placeholder="Descriptions"></textarea>
                     </div>
                     <div class="col-auto">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -58,6 +58,7 @@ session_start();
             </div>
         </div>
         <div class="row row-cols-3">
+        <div class="col">
             <table id="tasks">
                 <thead>
                     <th>Username</th>
@@ -84,6 +85,10 @@ session_start();
                     <?php } ?>
                 </tbody>
             </table>
+            <?php for ($i = 1; $i <= $countPages; $i++) { ?>
+                <a href="<?= $i ?>"><?= $i ?></a>
+            <?php } ?>
+            </div>
         </div>
     </div>
 <script src="js/form.js"></script>

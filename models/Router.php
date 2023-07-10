@@ -54,7 +54,8 @@ class Router {
             $path = 'Controllers\\'.ucfirst($this->params['controller']).'Controller';
             $action = $this->params['action'];
             $controller = new $path;
-            $controller->$action();
+            $page = (int)trim($_SERVER['REQUEST_URI'], '/');
+            $controller->$action($page);
         } else {
             print 'Routing not works';
         }

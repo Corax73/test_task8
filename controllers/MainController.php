@@ -8,12 +8,13 @@ use Models\Connect;
 
 class MainController
 {
-    public function index()
+    public function index($page)
     {
         $task = new Task();
         $conn = new Connect();
-        $tasks = $task->loadTasksData($conn);
+        $tasks = $task->loadTasksForPagination($conn, $page);
+        $countPage = ceil(count($task->loadTasksData($conn))/3);
         $view = new View;
-        $view->render($tasks);
+        $view->render($tasks, $countPage);
     }
 }

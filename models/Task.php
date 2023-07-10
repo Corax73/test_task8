@@ -19,6 +19,28 @@ class Task
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $rows;
     }
+
+    /**
+     * output of tasks for pagination
+     * @param Connect $connect
+     * @param int $page
+     * @return array
+     */
+    public function loadTasksForPagination(Connect $connect, int $page):array
+    {
+        $start = 0;
+        $tasksPerPage = 3;
+        if($page != 0){
+            $start = ($page - 1) * $tasksPerPage;
+        }
+        $query = "SELECT * FROM `tasks` LIMIT :start,:tasksPerPage";
+        $stmt = $connect->connect(PATH_CONF)->prepare($query);
+        $stmt->bindValue(':start', (int) $start, PDO::PARAM_INT);
+        $stmt->bindValue(':tasksPerPage', (int) $tasksPerPage, PDO::PARAM_INT);
+        $stmt->execute();
+        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return($tasks);
+    }
     
     /**
      * loading data of one task

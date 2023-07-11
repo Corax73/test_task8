@@ -7,7 +7,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title><?= $title ?></title>
 </head>
 <body>
@@ -62,10 +62,10 @@ session_start();
             <table id="tasks">
                 <thead>
                     <tr id="th1"><th colspan="4"><h2><?= $title ?></h2></th></tr>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Descriptions</th>
-                    <th>Implementation</th>
+                    <th><?php echo sort_link_th('Username', 'username_asc', 'username_desc', $page); ?></th>
+                    <th><?php echo sort_link_th('Email', 'email_asc', 'email_desc', $page); ?></th>
+                    <th><?php echo sort_link_th('Descriptions', 'descriptions_asc', 'descriptions_desc', $page); ?></th>
+                    <th><?php echo sort_link_th('Implementation', 'implementation_asc', 'implementation_desc', $page); ?></th>
                 </thead>
                 <tbody>
                 <?php foreach($data as $value) {?>
@@ -89,13 +89,29 @@ session_start();
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                     <?php for ($i = 1; $i <= $countPages; $i++) { ?>
-                        <li class="page-item"><a class="page-link" href="<?= $i ?>"><?= $i ?></a></li>
+                        <li class="page-item"><a class="page-link" href="http://localhost:8000/<?= $i ?>/sort=<?= $sort ?>"><?= $i ?></a></li>
                     <?php } ?>
                 </ul>
             </nav>
             </div>
         </div>
     </div>
-<script src="js/form.js"></script>
+    <?php
+    function sort_link_th($title, $a, $b, $page) {
+        $sort = explode('=', $_SERVER['REQUEST_URI']);
+        if (!isset($sort[1])) {
+            $sort = $a;
+        }
+        $sort = $sort[1];
+        if ($sort == $a) {
+            return '<a class="active" href="http://localhost:8000/' . $page . '/sort=' . $b . '">' . $title . ' <i>▲</i></a>';
+        } elseif ($sort == $b) {
+            return '<a class="active" href="http://localhost:8000/' . $page . '/sort=' . $a . '">' . $title . ' <i>▼</i></a>';  
+        } else {
+            return '<a href="http://localhost:8000/' . $page . '/sort=' . $a . '">' . $title . '</a>';  
+        }
+    }
+    ?>
+<script src="/js/form.js"></script>
 </body>
 </html>

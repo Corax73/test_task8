@@ -117,4 +117,45 @@ class Task
         $countPage = intval(ceil(count($this->loadTasksData($connect))/3));
         return $countPage;
     }
+
+    /**
+     * output tasks for pagination with sorting
+     * @param Connect $connect
+     * @param int $page
+     * @param string $sort
+     * @return array
+     */
+    public function loadTasksForPaginationWithSort(Connect $connect, int $page, string $sort):array
+    {
+        $sort_list = array(
+            'username_asc'   => '`username`',
+            'username_desc'  => '`username` DESC',
+            'email_asc'  => '`email`',
+            'email_desc' => '`email` DESC',
+            'descriptions_asc'   => '`descriptions`',
+            'descriptions_desc'  => '`descriptions` DESC',
+            'implementation_asc'   => '`implementation`',
+            'implementation_desc'  => '`implementation` DESC'
+        );
+
+        if (array_key_exists($sort, $sort_list)) {
+            $sort_sql = $sort_list[$sort];
+        } else {
+            $sort_sql = reset($sort_list);
+        }
+
+        $start = 0;
+        $tasksPerPage = 3;
+        if($page != 0){
+            $start = ($page - 1) * $tasksPerPage;
+        }
+
+        $query = "SELECT * FROM `tasks` ORDER BY " . $sort_sql . " LIMIT :start,:tasksPerPage";
+        $stmt = $connect->connect(PATH_CONF)->prepare($query);
+        $stmt->bindValue(':start', (int) $start, PDO::PARAM_INT);
+        $stmt->bindValue(':tasksPerPage', (int) $tasksPerPage, PDO::PARAM_INT);
+        $stmt->execute();
+        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return($tasks);
+    }
 }

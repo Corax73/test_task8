@@ -4,9 +4,15 @@ namespace Views;
 
 class View
 {
-    public function render($data, $countPages)
+    /**
+     * template output with data passing to it
+     * @param array $data
+     * @param int $countPages
+     * @return void
+     */
+    public function render(array $data, int $countPages):void
     {
-        $title = 'Work';
+        $title = 'Task list';
         require 'layouts/main-layout.php';
     }
 }

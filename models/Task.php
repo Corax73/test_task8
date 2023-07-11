@@ -106,4 +106,15 @@ class Task
             return false;
         }
     }
+
+    /**
+     * calculates the number of pages to paginate
+     * @param Connect $connect
+     * @return int
+     */
+    public function getCountPages(Connect $connect):int
+    {
+        $countPage = intval(ceil(count($this->loadTasksData($connect))/3));
+        return $countPage;
+    }
 }

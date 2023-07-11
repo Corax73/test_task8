@@ -12,3 +12,6 @@ td {
     padding: 9px 8px;
     transition: .3s linear;
 }
+#th1 {
+    border: 5px solid black;
+}

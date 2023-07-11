@@ -8,6 +8,10 @@ return [
 		'controller' => 'main',
 		'action' => 'index',
 	],
+	'create' => [
+		'controller' => 'main',
+		'action' => 'create',
+	],
     'admin/([0-9]+)' => [
 		'controller' => 'admin',
 		'action' => 'edit',

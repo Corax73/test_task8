@@ -17,18 +17,18 @@ session_start();
                     <button class="btn btn-primary" id="regBtn">
                         Add a task
                     </button>
-                    <form id="formReg" class="row gx-3 gy-2 align-items-center" method="POST" action="">
+                    <form id="formReg" class="row gx-3 gy-2 align-items-center" method="POST" action="/create">
                     <div class="col-sm-3">
                         <label class="visually-hidden" for="specificSizeInputName">Username</label>
-                        <input type="text" name="username" class="form-control" id="specificSizeInputName" placeholder="Username">
+                        <input type="text" name="username" class="form-control" id="specificSizeInputName" placeholder="Username" required>
                     </div>
                     <div class="col-sm-3">
                         <label class="visually-hidden" for="specificSizeInputEmail">Email</label>
-                        <input type="email" name="email" class="form-control" id="specificSizeInputEmail" placeholder="Email">
+                        <input type="email" name="email" class="form-control" id="specificSizeInputEmail" placeholder="Email" required>
                     </div>
                     <div class="col-sm-3">
                         <label class="visually-hidden" for="specificSizeInputDescriptions">Descriptions</label>
-                        <textarea name="descriptions" id="specificSizeInputEmail" cols="30" rows="10" class="form-control" placeholder="Descriptions"></textarea>
+                        <textarea name="descriptions" id="specificSizeInputEmail" cols="30" rows="10" class="form-control" placeholder="Descriptions" required></textarea>
                     </div>
                     <div class="col-auto">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -57,10 +57,11 @@ session_start();
                 <?php } ?>
             </div>
         </div>
-        <div class="row row-cols-3">
+        <div class="row row-cols-1">
         <div class="col">
             <table id="tasks">
                 <thead>
+                    <tr id="th1"><th colspan="4"><h2><?= $title ?></h2></th></tr>
                     <th>Username</th>
                     <th>Email</th>
                     <th>Descriptions</th>
@@ -85,9 +86,13 @@ session_start();
                     <?php } ?>
                 </tbody>
             </table>
-            <?php for ($i = 1; $i <= $countPages; $i++) { ?>
-                <a href="<?= $i ?>"><?= $i ?></a>
-            <?php } ?>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <?php for ($i = 1; $i <= $countPages; $i++) { ?>
+                        <li class="page-item"><a class="page-link" href="<?= $i ?>"><?= $i ?></a></li>
+                    <?php } ?>
+                </ul>
+            </nav>
             </div>
         </div>
     </div>

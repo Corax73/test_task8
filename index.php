@@ -1,4 +1,9 @@
 <?php
 
 session_start();
-require 'src/main.php';
+include 'config/const.php';
+
+spl_autoload_register();
+
+$router = new Models\Router;
+$router->run();

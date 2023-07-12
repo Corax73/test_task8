@@ -17,6 +17,7 @@ class MainController
     public function index(int $page):void
     {
         $sort = explode('=', $_SERVER['REQUEST_URI']);
+        $sort = $sort[0];
         $task = new Task();
         $conn = new Connect();
         $tasks = $task->loadTasksForPagination($conn, $page);

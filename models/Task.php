@@ -128,6 +128,7 @@ class Task
     public function loadTasksForPaginationWithSort(Connect $connect, int $page, string $sort):array
     {
         $sort_list = array(
+            'id' => '`id`',
             'username_asc'   => '`username`',
             'username_desc'  => '`username` DESC',
             'email_asc'  => '`email`',

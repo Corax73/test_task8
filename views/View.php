@@ -10,8 +10,11 @@ class View
      * @param int $countPages
      * @return void
      */
-    public function render(array $data, int $countPages, $sort, $page):void
+    public function render(array $data, int $countPages, string $sort, int $page):void
     {
+        if (($sort == '/')) {
+            $sort = 'id';
+        }
         $title = 'Task list';
         require 'layouts/main-layout.php';
     }

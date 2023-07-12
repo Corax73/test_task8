@@ -53,9 +53,21 @@ class Router {
         if ($this->match()) {
             $path = 'Controllers\\'.ucfirst($this->params['controller']).'Controller';
             $action = $this->params['action'];
-            $controller = new $path;
-            $page = (int)trim($_SERVER['REQUEST_URI'], '/');
-            $controller->$action($page);
+            if ($action != 'edit') {
+                $controller = new $path;
+                $page = (int)trim($_SERVER['REQUEST_URI'], '/');
+                $controller->$action($page);
+            } elseif ($action == 'edit') {
+                $controller = new $path;
+                $page = trim($_SERVER['REQUEST_URI'], '/');
+                $page = explode('/', $page);
+                if (isset($page[1])) {
+                    $page = $page[1];
+                } else {
+                    $page = 0;
+                }
+                $controller->$action($page);
+            }
         } else {
             print 'Routing not works';
         }

@@ -22,4 +22,21 @@ class View
 
         require 'layouts/main-layout.php';
     }
+
+    /**
+     * template output with data passing to it
+     * @param array $data
+     * @param int $countPages
+     * @return void
+     */
+    public function renderAdmin(array $data, int $countPages, string $sort, int $page, array $error = []):void
+    {
+        if (($sort == '/')) {
+            $sort = 'id';
+        }
+        $title = 'Admin list';
+        $sortLinks = new SortLinkCreator();
+
+        require 'layouts/admin-layout.php';
+    }
 }

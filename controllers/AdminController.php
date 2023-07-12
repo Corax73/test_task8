@@ -10,9 +10,26 @@ use Models\Task;
 
 class AdminController
 {
-    public function edit()
+    public function edit(int $page):void
     {
-        print 'admincontroller work';
+        $sort = trim($_SERVER['REQUEST_URI'], '/');
+        $sort = explode('/', $sort);
+        if (isset($sort[2])) {
+            $sort = explode('=', $sort[2]);
+            $sort['sort'] = $sort[1];
+        }
+        if (array_key_exists('sort', $sort)) {
+            $sort = $sort['sort'];
+        } else {
+            $sort = 'id';
+        }
+
+        $task = new Task();
+        $conn = new Connect();
+        $tasks = $task->loadTasksForPaginationWithSort($conn, $page, $sort);
+        $countPage = $task->getCountPages($conn);
+        $view = new View;
+        $view->renderAdmin($tasks, $countPage, $sort, $page);
     }
 
     public function login():void

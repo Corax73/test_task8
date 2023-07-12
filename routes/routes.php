@@ -31,5 +31,17 @@ return [
     'admin/([0-9]+)' => [
 		'controller' => 'admin',
 		'action' => 'edit',
-	],	
+	],
+	'admin' => [
+		'controller' => 'admin',
+		'action' => 'edit',
+	],
+	'admin/([0-9]+)/sort=([A-z]+)' => [
+		'controller' => 'admin',
+		'action' => 'edit',
+	],
+	'admin/sort=([A-z]+)' => [
+		'controller' => 'admin',
+		'action' => 'edit',
+	],
 ];

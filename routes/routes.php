@@ -2,7 +2,7 @@
 return [
 	'([0-9]+)' => [
 		'controller' => 'main',
-		'action' => 'index',
+		'action' => 'indexWithSort',
 	],
 	'' => [
 		'controller' => 'main',
@@ -19,6 +19,14 @@ return [
 	'create' => [
 		'controller' => 'main',
 		'action' => 'create',
+	],
+	'login' => [
+		'controller' => 'admin',
+		'action' => 'login',
+	],
+	'logout' => [
+		'controller' => 'admin',
+		'action' => 'logout',
 	],
     'admin/([0-9]+)' => [
 		'controller' => 'admin',

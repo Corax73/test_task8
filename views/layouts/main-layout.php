@@ -36,10 +36,12 @@ session_start();
                 </form>
             </div>
             <div class="col">
+                <?php if (!isset($_SESSION['user_id'])) { ?>
                     <button class="btn btn-primary" id="loginBtn">
                         Login
                     </button>
-                    <form id="formLogin" class="row gx-3 gy-2 align-items-center" method="POST" action="">
+                <?php } ?>
+                    <form id="formLogin" class="row gx-3 gy-2 align-items-center" method="POST" action="/login">
                     <div class="col-sm-3">
                         <label class="visually-hidden" for="specificSizeInputLogin">Login</label>
                         <input type="text" name="login" class="form-control" id="specificSizeInputLogin" placeholder="Login">
@@ -48,12 +50,16 @@ session_start();
                         <label for="exampleInputForLogin" class="form-label">Password</label>
                         <input type="password" name="passwordForLogin" class="form-control" id="exampleInputForLogin">
                     </div>
+                    <div class="col-auto">
+                        <?php if (isset($error['auth'])) {echo $error['auth'];} ?>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
                 </form>
             </div>
             <div class="col">
-                <?php if (isset($_SESSION['id'])) { ?>
+                <?php if (isset($_SESSION['user_id'])) { ?>
                 <a class="btn btn-primary" href="http://localhost:8000/admin/edit" role="button">Authorized user profile</a>
-                <a class="btn btn-danger" href="/" role="button">Logout</a>
+                <a class="btn btn-danger" href="/logout" role="button">Logout</a>
                 <?php } ?>
             </div>
         </div>
@@ -62,10 +68,10 @@ session_start();
             <table id="tasks">
                 <thead>
                     <tr id="th1"><th colspan="4"><h2><?= $title ?></h2></th></tr>
-                    <th><?php echo sort_link_th('Username', 'username_asc', 'username_desc', $page); ?></th>
-                    <th><?php echo sort_link_th('Email', 'email_asc', 'email_desc', $page); ?></th>
-                    <th><?php echo sort_link_th('Descriptions', 'descriptions_asc', 'descriptions_desc', $page); ?></th>
-                    <th><?php echo sort_link_th('Implementation', 'implementation_asc', 'implementation_desc', $page); ?></th>
+                    <th><?php print $sortLinks->creatingSortLinks('Username', 'username_asc', 'username_desc', $page); ?></th>
+                    <th><?php print $sortLinks->creatingSortLinks('Email', 'email_asc', 'email_desc', $page); ?></th>
+                    <th><?php print $sortLinks->creatingSortLinks('Descriptions', 'descriptions_asc', 'descriptions_desc', $page); ?></th>
+                    <th><?php print $sortLinks->creatingSortLinks('Implementation', 'implementation_asc', 'implementation_desc', $page); ?></th>
                 </thead>
                 <tbody>
                 <?php foreach($data as $value) {?>
@@ -96,22 +102,6 @@ session_start();
             </div>
         </div>
     </div>
-    <?php
-    function sort_link_th($title, $a, $b, $page) {
-        $sort = explode('=', $_SERVER['REQUEST_URI']);
-        if (!isset($sort[1])) {
-            $sort = $a;
-        }
-        $sort = $sort[1];
-        if ($sort == $a) {
-            return '<a class="active" href="http://localhost:8000/' . $page . '/sort=' . $b . '">' . $title . ' <i>▲</i></a>';
-        } elseif ($sort == $b) {
-            return '<a class="active" href="http://localhost:8000/' . $page . '/sort=' . $a . '">' . $title . ' <i>▼</i></a>';  
-        } else {
-            return '<a href="http://localhost:8000/' . $page . '/sort=' . $a . '">' . $title . '</a>';  
-        }
-    }
-    ?>
 <script src="/js/form.js"></script>
 </body>
 </html>

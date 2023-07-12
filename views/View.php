@@ -2,6 +2,8 @@
 
 namespace Views;
 
+use \Models\SortLinkCreator;
+
 class View
 {
     /**
@@ -10,12 +12,14 @@ class View
      * @param int $countPages
      * @return void
      */
-    public function render(array $data, int $countPages, string $sort, int $page):void
+    public function renderPublic(array $data, int $countPages, string $sort, int $page, array $error = []):void
     {
         if (($sort == '/')) {
             $sort = 'id';
         }
         $title = 'Task list';
+        $sortLinks = new SortLinkCreator();
+
         require 'layouts/main-layout.php';
     }
 }

@@ -23,7 +23,7 @@ class MainController
         $tasks = $task->loadTasksForPagination($conn, $page);
         $countPage = $task->getCountPages($conn);
         $view = new View;
-        $view->render($tasks, $countPage, $sort, $page);
+        $view->renderPublic($tasks, $countPage, $sort, $page);
     }
 
     /**
@@ -47,16 +47,19 @@ class MainController
         }
     }
 
+    /**
+     * displaying the main page with sorting
+     * @return void
+     */
     public function indexWithSort(int $page):void
     {
         $sort = explode('=', $_SERVER['REQUEST_URI']);
-        //print_r($sort[1]); die();
         $sort = $sort[1];
         $task = new Task();
         $conn = new Connect();
         $tasks = $task->loadTasksForPaginationWithSort($conn, $page, $sort);
         $countPage = $task->getCountPages($conn);
         $view = new View;
-        $view->render($tasks, $countPage, $sort, $page);
+        $view->renderPublic($tasks, $countPage, $sort, $page);
     }
 }

@@ -69,7 +69,10 @@ class Router {
                 $controller->$action($page);
             }
         } else {
-            print 'Routing not works';
+            $path = 'Controllers\\'.'MainController';
+            $action = 'notFound';
+            $controller = new $path;
+            $controller->$action();
         }
     }
 }

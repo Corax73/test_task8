@@ -62,4 +62,14 @@ class MainController
         $view = new View;
         $view->renderPublic($tasks, $countPage, $sort, $page);
     }
+
+    /**
+     * 404 page output
+     * @return void
+     */
+    public function notFound():void
+    {
+        $view = new View;
+        $view->page404();
+    }
 }

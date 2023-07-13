@@ -39,4 +39,14 @@ class View
 
         require 'layouts/admin-layout.php';
     }
+
+    /**
+     * 404 page output
+     * @return void
+     */
+    public function page404():void
+    {
+        $title = '404';
+        require 'layouts/404.php';
+    }
 }

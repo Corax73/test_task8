@@ -159,4 +159,32 @@ class Task
         $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return($tasks);
     }
+
+    /**
+     * updates task data
+     * @param Connect $connect
+     * @param array $newData
+     * @param int $task_id
+     * @return bool
+     */
+    public function updateTask(Connect $connect, array $newData, int $task_id):bool
+    {
+        $keys = array_keys($newData);
+        $query = 'UPDATE `tasks` SET ';
+        $params = [];
+        foreach ($keys as $key) {
+            $query .= '`' . $key . '` = :' . $key . ', ';
+            $params[':' . $key] = $newData[$key];
+        }
+        $query = mb_substr($query, 0, -2);
+        $query .= ' WHERE `id` = ' . $task_id;
+
+        $stmt = $connect->connect(PATH_CONF)->prepare($query);
+        $stmt->execute($params);
+        if ($stmt) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

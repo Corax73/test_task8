@@ -10,6 +10,10 @@ use Models\Task;
 
 class AdminController
 {
+    /**
+     * displaying the admin panel page with sorting
+     * @return void
+     */
     public function edit(int $page):void
     {
         $sort = trim($_SERVER['REQUEST_URI'], '/');
@@ -32,6 +36,10 @@ class AdminController
         $view->renderAdmin($tasks, $countPage, $sort, $page);
     }
 
+    /**
+     * user authentication check
+     * @return void
+     */
     public function login():void
     {
         if(!empty($_POST['login']) && !empty($_POST['passwordForLogin'])) {
@@ -60,9 +68,44 @@ class AdminController
         }
     }
 
+    /**
+     * completes user authentication
+     * @return void
+     */
     public function logout():void
     {
         $user = new User();
         $user->logout();
+    }
+    
+    /**
+     * updates task fields
+     * @return void
+     */
+    public function update():void
+    {
+        if(!empty($_POST['username']) || !empty($_POST['email']) || !empty($_POST['descriptions']) || !empty($_POST['implementation'])) {
+            $cleaning = new InputCleaning();
+            $newData = [];
+            foreach ($_POST as $key=>$value) {
+                if (!empty($value)) {
+                    $value = $cleaning->clean($value);
+                    $newData[$key] = $value;
+                }
+            }
+            $task_id = $newData['id'];
+            unset($newData['id']);
+            $newData['edited'] = true;
+            $task = new Task();
+            $conn = new Connect();
+            $update = $task->updateTask($conn, $newData, $task_id);
+            if ($update) {
+                header ("Location: http://localhost:8000/admin/");
+            } else {
+                header ("Location: http://localhost:8000/admin/");
+            }
+        } else {
+            header ("Location: http://localhost:8000/admin/");
+        }
     }
 }

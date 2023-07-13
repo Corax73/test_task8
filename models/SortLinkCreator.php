@@ -28,6 +28,14 @@ class SortLinkCreator
         }
     }
 
+    /**
+     * creating sorting links for the admin panel
+     * @param string $title
+     * @param string $a
+     * @param string $b
+     * @param int $page
+     * @return string
+     */
     public function creatingSortLinksForAdmin(string $title, string $a, string $b, int $page):string
     {
         $sort = explode('=', $_SERVER['REQUEST_URI']);

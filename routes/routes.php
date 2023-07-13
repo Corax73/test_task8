@@ -44,4 +44,8 @@ return [
 		'controller' => 'admin',
 		'action' => 'edit',
 	],
+	'admin/update' => [
+		'controller' => 'admin',
+		'action' => 'update',
+	]
 ];

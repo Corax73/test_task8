@@ -68,6 +68,7 @@ session_start();
             <table id="tasks">
                 <thead>
                     <tr id="th1"><th colspan="4"><h2><?= $title ?></h2></th></tr>
+                    <th>Admin editing</th>
                     <th><?php print $sortLinks->creatingSortLinks('Username', 'username_asc', 'username_desc', $page); ?></th>
                     <th><?php print $sortLinks->creatingSortLinks('Email', 'email_asc', 'email_desc', $page); ?></th>
                     <th><?php print $sortLinks->creatingSortLinks('Descriptions', 'descriptions_asc', 'descriptions_desc', $page); ?></th>
@@ -76,6 +77,9 @@ session_start();
                 <tbody>
                 <?php foreach($data as $value) {?>
                     <tr>
+                        <td>
+                            <?php if (isset($value['edited'])) {print 'The task has been edited by an administrator.';} ?>
+                        </td>
                         <td>
                             <?= $value['username'] ?>
                         </td>

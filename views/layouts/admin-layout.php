@@ -54,7 +54,7 @@ if (!$_SESSION['user_id']) {
                         <input type="password" name="passwordForLogin" class="form-control" id="exampleInputForLogin">
                     </div>
                     <div class="col-auto">
-                        <?php if (isset($error['auth'])) {echo $error['auth'];} ?>
+                        <?php if (isset($error['auth'])) {print $error['auth'];} ?>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </div>
                 </form>
@@ -70,6 +70,7 @@ if (!$_SESSION['user_id']) {
             <table id="tasks">
                 <thead>
                     <tr id="th1"><th colspan="4"><h2><?= $title ?></h2></th></tr>
+                    <th>Admin editing</th>
                     <th><?php print $sortLinks->creatingSortLinksForAdmin('Username', 'username_asc', 'username_desc', $page); ?></th>
                     <th><?php print $sortLinks->creatingSortLinksForAdmin('Email', 'email_asc', 'email_desc', $page); ?></th>
                     <th><?php print $sortLinks->creatingSortLinksForAdmin('Descriptions', 'descriptions_asc', 'descriptions_desc', $page); ?></th>
@@ -78,8 +79,12 @@ if (!$_SESSION['user_id']) {
                 <tbody>
                 <?php foreach($data as $value) {?>
                     <tr>
-                        <form method="POST" action="">
+                        <form method="POST" action="http://localhost:8000/admin/update">
                             <td>
+                                <?php if (isset($value['edited'])) {print 'The task has been edited by an administrator.';} ?>
+                            </td>
+                            <td>
+                                <input type="hidden" name="id" value="<?= $value['id'] ?>">
                                 <input type="text" name="username" placeholder="<?= $value['username'] ?>">
                             </td>
                             <td>

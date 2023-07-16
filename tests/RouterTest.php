@@ -47,9 +47,10 @@ class RouterTest extends TestCase
         $type = $resp['Content-type'][0];
         $this->assertEquals('text/html; charset=UTF-8', $type);
     }
+    
     public function testPost(): void
     {
-        $response = $this->http->request('POST', '/create', ['username' => 'phpunit1', 'email' => 'phpunit@mail.php', 'descriptions' => 'test']);
+        $response = $this->http->request('POST', '/create', ['form_params' => ['username' => 'phpunit', 'email' => 'phpunit@mail.php', 'descriptions' => 'test']]);
         $this->assertEquals(200, $response->getStatusCode());
     }
 }

@@ -18,10 +18,11 @@ class MainController
     {
         $sort = explode('=', $_SERVER['REQUEST_URI']);
         $sort = $sort[0];
+        $path = PATH_CONF;
         $task = new Task();
         $conn = new Connect();
-        $tasks = $task->loadTasksForPagination($conn, $page);
-        $countPage = $task->getCountPages($conn);
+        $tasks = $task->loadTasksForPagination($conn, $page, $path);
+        $countPage = $task->getCountPages($conn, $path);
         $view = new View;
         $view->renderPublic($tasks, $countPage, $sort, $page);
     }
@@ -39,10 +40,11 @@ class MainController
             $email = $cleaning->clean($_POST['email']);
             $descriptions = $cleaning->clean($_POST['descriptions']);
     
+            $path = PATH_CONF;
             $task = new Task();
             $conn = new Connect();
     
-            $task->saveTask($conn, $username, $email, $descriptions);
+            $task->saveTask($conn, $username, $email, $descriptions, $path);
             header ("Location: http://localhost:8000");
         }
     }
@@ -55,10 +57,11 @@ class MainController
     {
         $sort = explode('=', $_SERVER['REQUEST_URI']);
         $sort = $sort[1];
+        $path = PATH_CONF;
         $task = new Task();
         $conn = new Connect();
-        $tasks = $task->loadTasksForPaginationWithSort($conn, $page, $sort);
-        $countPage = $task->getCountPages($conn);
+        $tasks = $task->loadTasksForPaginationWithSort($conn, $page, $sort, $path);
+        $countPage = $task->getCountPages($conn, $path);
         $view = new View;
         $view->renderPublic($tasks, $countPage, $sort, $page);
     }

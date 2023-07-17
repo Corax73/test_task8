@@ -27,11 +27,11 @@ class AdminController
         } else {
             $sort = 'id';
         }
-
+        $path = PATH_CONF;
         $task = new Task();
         $conn = new Connect();
-        $tasks = $task->loadTasksForPaginationWithSort($conn, $page, $sort);
-        $countPage = $task->getCountPages($conn);
+        $tasks = $task->loadTasksForPaginationWithSort($conn, $page, $sort, $path);
+        $countPage = $task->getCountPages($conn, $path);
         $view = new View;
         $view->renderAdmin($tasks, $countPage, $sort, $page);
     }
@@ -54,14 +54,15 @@ class AdminController
             if ($auth) {
                 header("Location: http://localhost:8000/");
             } else {
+                $path = PATH_CONF;
                 $error['auth'] = 'Authentication failed';
                 $page = 0;
                 $sort = explode('=', $_SERVER['REQUEST_URI']);
                 $sort = $sort[0];
                 $task = new Task();
                 $conn = new Connect();
-                $tasks = $task->loadTasksForPagination($conn, $page);
-                $countPage = $task->getCountPages($conn);
+                $tasks = $task->loadTasksForPagination($conn, $page, $path);
+                $countPage = $task->getCountPages($conn, $path);
                 $view = new View;
                 $view->renderPublic($tasks, $countPage, $sort, $page, $error);
             }
@@ -93,12 +94,13 @@ class AdminController
                     $newData[$key] = $value;
                 }
             }
+            $path = PATH_CONF;
             $task_id = $newData['id'];
             unset($newData['id']);
             $newData['edited'] = true;
             $task = new Task();
             $conn = new Connect();
-            $update = $task->updateTask($conn, $newData, $task_id);
+            $update = $task->updateTask($conn, $newData, $task_id, $path);
             if ($update) {
                 header ("Location: http://localhost:8000/admin/");
             } else {

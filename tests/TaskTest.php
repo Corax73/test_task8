@@ -3,8 +3,6 @@
 namespace Models;
 
 use PHPUnit\Framework\TestCase;
-//use Models\Connect;
-use PDO;
 
 include 'config/const.php';
 
@@ -25,6 +23,7 @@ class TaskTest extends TestCase
     {
         $this->task = NULL;
         $this->connect = NULL;
+        $this->path = NULL;
     }
 
     public function testCreateTask(): void

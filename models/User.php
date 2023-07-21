@@ -11,9 +11,10 @@ class User
      * @param Connect $connect
      * @param string $login
      * @param string $password
+     * @param string $path
      * @return bool
      */
-    public function saveUser(Connect $connect, string $login, string $password):bool
+    public function saveUser(Connect $connect, string $login, string $password, string $path):bool
     {
         $password = password_hash($password, PASSWORD_DEFAULT);
         $query = 'INSERT INTO `users` (login, password) VALUES (:login, :password)';
@@ -21,7 +22,7 @@ class User
             ':login' => $login,
             ':password' => $password
         ];
-        $stmt = $connect->connect(PATH_CONF)->prepare($query);
+        $stmt = $connect->connect($path)->prepare($query);
         $stmt->execute($params);
         if ($stmt) {
             return true;
@@ -34,15 +35,16 @@ class User
      * @param Connect $connect
      * @param string $login
      * @param string $password
+     * @param string $path
      * @return bool
      */
-    public function authUser(Connect $connect, string $login, string $password):bool
+    public function authUser(Connect $connect, string $login, string $password, string $path):bool
     {
         $query = "SELECT * FROM `users` WHERE login = :login";
         $params = [
             ':login' => $login
         ];
-        $stmt = $connect->connect(PATH_CONF)->prepare($query);
+        $stmt = $connect->connect($path)->prepare($query);
         $stmt->execute($params);
         $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (count($row) == 1) {

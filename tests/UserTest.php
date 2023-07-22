@@ -40,13 +40,13 @@ class UserTest extends TestCase
 
     public function testSaveUser(): void
     {
-    $result = $this->user->saveUser($this->connect, 'phpunit', 'test', $this->path);
+        $result = $this->user->saveUser($this->connect, 'phpunit', 'test', $this->path);
         $this->assertTrue($result, $message = 'not preserved');
     }
 
     public function testAuthUser(): void
     {
-    $result = $this->user->authUser($this->connect, '123', '321', $this->path);
+        $result = $this->user->authUser($this->connect, '123', '321', $this->path);
         $this->assertTrue($result, $message = 'not preserved');
     }
 

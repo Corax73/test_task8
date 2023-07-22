@@ -50,7 +50,8 @@ class AdminController
             $password = $_POST['passwordForLogin'];
             $conn = new Connect();
             $user = new User();
-            $auth = $user->authUser($conn, $login, $password);
+            $path = PATH_CONF;
+            $auth = $user->authUser($conn, $login, $password, $path);
             if ($auth) {
                 header("Location: http://localhost:8000/");
             } else {

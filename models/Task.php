@@ -9,12 +9,13 @@ class Task
     /**
      * downloading data of all tasks
      * @param Connect $connect
+     * @param string $path
      * @return array
      */
-    public function loadTasksData(Connect $connect):array
+    public function loadTasksData(Connect $connect, string $path):array
     {
         $query = 'SELECT * FROM `tasks`';
-        $stmt = $connect->connect(PATH_CONF)->prepare($query);
+        $stmt = $connect->connect($path)->prepare($query);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $rows;
@@ -24,9 +25,10 @@ class Task
      * output of tasks for pagination
      * @param Connect $connect
      * @param int $page
+     * @param string $path
      * @return array
      */
-    public function loadTasksForPagination(Connect $connect, int $page):array
+    public function loadTasksForPagination(Connect $connect, int $page, string $path):array
     {
         $start = 0;
         $tasksPerPage = 3;
@@ -34,7 +36,7 @@ class Task
             $start = ($page - 1) * $tasksPerPage;
         }
         $query = "SELECT * FROM `tasks` LIMIT :start,:tasksPerPage";
-        $stmt = $connect->connect(PATH_CONF)->prepare($query);
+        $stmt = $connect->connect($path)->prepare($query);
         $stmt->bindValue(':start', (int) $start, PDO::PARAM_INT);
         $stmt->bindValue(':tasksPerPage', (int) $tasksPerPage, PDO::PARAM_INT);
         $stmt->execute();
@@ -46,15 +48,16 @@ class Task
      * loading data of one task
      * @param Connect $connect
      * @param int $id
+     * @param string $path
      * @return array
      */
-    public function loadOneTaskData(Connect $connect, int $id):array
+    public function loadOneTaskData(Connect $connect, int $id, string $path):array
     {
         $query = 'SELECT * FROM `tasks` WHERE `id` = :id';
         $params = [
             ':id' => $id
         ];
-        $stmt = $connect->connect(PATH_CONF)->prepare($query);
+        $stmt = $connect->connect($path)->prepare($query);
         $stmt->execute($params);
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $rows;
@@ -66,9 +69,10 @@ class Task
      * @param string $login
      * @param string $email
      * @param string $descriptions
+     * @param string $path
      * @return bool
      */
-    public function saveTask(Connect $connect, string $username, string $email, string $descriptions):bool
+    public function saveTask(Connect $connect, string $username, string $email, string $descriptions, string $path):bool
     {
         $query = 'INSERT INTO `tasks` (username, email, descriptions) VALUES (:username, :email, :descriptions)';
         $params = [
@@ -76,7 +80,7 @@ class Task
             ':email' => $email,
             ':descriptions' => $descriptions
         ];
-        $stmt = $connect->connect(PATH_CONF)->prepare($query);
+        $stmt = $connect->connect($path)->prepare($query);
         $stmt->execute($params);
         if ($stmt) {
             return true;
@@ -90,12 +94,13 @@ class Task
      * @param Connect $connect
      * @param int $task_id
      * @param int $implementation
+     * @param string $path
      * @return bool
      */
-    public function setImplementation(Connect $connect, int $task_id, int $implementation):bool
+    public function setImplementation(Connect $connect, int $task_id, int $implementation, string $path):bool
     {
         $query = 'UPDATE `tasks` SET `implementation` = :implementation WHERE `id` = ' . $task_id;
-        $stmt = $connect->connect(PATH_CONF)->prepare($query);
+        $stmt = $connect->connect($path)->prepare($query);
         $params = [
             ':implementation' => $implementation
         ];
@@ -110,11 +115,12 @@ class Task
     /**
      * calculates the number of pages to paginate
      * @param Connect $connect
+     * @param string $path
      * @return int
      */
-    public function getCountPages(Connect $connect):int
+    public function getCountPages(Connect $connect, string $path):int
     {
-        $countPage = intval(ceil(count($this->loadTasksData($connect))/3));
+        $countPage = intval(ceil(count($this->loadTasksData($connect, $path))/3));
         return $countPage;
     }
 
@@ -123,9 +129,10 @@ class Task
      * @param Connect $connect
      * @param int $page
      * @param string $sort
+     * @param string $path
      * @return array
      */
-    public function loadTasksForPaginationWithSort(Connect $connect, int $page, string $sort):array
+    public function loadTasksForPaginationWithSort(Connect $connect, int $page, string $sort, string $path):array
     {
         $sort_list = array(
             'id' => '`id`',
@@ -152,7 +159,7 @@ class Task
         }
 
         $query = "SELECT * FROM `tasks` ORDER BY " . $sort_sql . " LIMIT :start,:tasksPerPage";
-        $stmt = $connect->connect(PATH_CONF)->prepare($query);
+        $stmt = $connect->connect($path)->prepare($query);
         $stmt->bindValue(':start', (int) $start, PDO::PARAM_INT);
         $stmt->bindValue(':tasksPerPage', (int) $tasksPerPage, PDO::PARAM_INT);
         $stmt->execute();
@@ -165,9 +172,10 @@ class Task
      * @param Connect $connect
      * @param array $newData
      * @param int $task_id
+     * @param string $path
      * @return bool
      */
-    public function updateTask(Connect $connect, array $newData, int $task_id):bool
+    public function updateTask(Connect $connect, array $newData, int $task_id, string $path):bool
     {
         $keys = array_keys($newData);
         $query = 'UPDATE `tasks` SET ';
@@ -179,7 +187,7 @@ class Task
         $query = mb_substr($query, 0, -2);
         $query .= ' WHERE `id` = ' . $task_id;
 
-        $stmt = $connect->connect(PATH_CONF)->prepare($query);
+        $stmt = $connect->connect($path)->prepare($query);
         $stmt->execute($params);
         if ($stmt) {
             return true;

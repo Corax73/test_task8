@@ -1,0 +1,22 @@
+{
+    "name": "user/test_task8",
+    "autoload": {
+        "psr-4": {
+            "Models\\": "models/",
+            "Controllers\\": "controllers/",
+            "Views\\": "views/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Corax73",
+            "email": "ramaz999@inbox.ru"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.7"
+    }
+}
